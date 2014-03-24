@@ -61,9 +61,7 @@ class userGroups(ndb.Model):
 #HUDDLES ---------------------------------------------------
 class Huddles(ndb.Model):
 	huddleId = ndb.StringProperty(indexed=False)
-	# dateTime = ndb.DateTimeProperty(indexed=False)
-	date = ndb.DateProperty(indexed=False)
-	time = ndb.TimeProperty(indexed=False)
+	dateAndTime = ndb.DateTimeProperty(indexed=False)
 	location = ndb.GeoPtProperty(indexed=False)
 	adminUserId_user = ndb.StringProperty(indexed=False)
 
