@@ -41,18 +41,23 @@ from google.appengine.ext import ndb
 class User(ndb.Model):
     userId = ndb.StringProperty(indexed=False)
 
+
 class UserTags(ndb.Model):
     tag = ndb.StringProperty(indexed=False)
+
 
 class UserRating(ndb.Model):
     ratedUserId_user = ndb.StringProperty(indexed=False)
     rating = ndb.IntegerProperty(indexed=False)
 
+
 class UserFriends(ndb.Model):
     userFriendId_user = ndb.StringProperty(indexed=False)
 
+
 class userGroups(ndb.Model):
     groupId_groups = ndb.StringProperty(indexed=False)
+
 
 #HUDDLES ---------------------------------------------------
 class Huddles(ndb.Model):
@@ -61,29 +66,33 @@ class Huddles(ndb.Model):
     location = ndb.GeoPtProperty(indexed=False)
     adminUserId_user = ndb.StringProperty(indexed=False)
 
+
 class HuddleTags(ndb.Model):
     tag = ndb.StringProperty(indexed=False)
 
+
 class UserHuddles(ndb.Model):
     userId_user = ndb.StringProperty(indexed=False)
+
 
 #GROUPS ---------------------------------------------------
 class Groups(ndb.Model):
     groupId = ndb.StringProperty(indexed=False)
     huddleId_huddles = ndb.StringProperty(indexed=False)
 
+
 class GroupAppointment(ndb.Model):
     appointmentName = ndb.StringProperty(indexed=False)
     appointmentTime = ndb.DateTimeProperty(indexed=False)
+
 
 class GroupChat(ndb.Model):
     # groupId_groups = ndb.StringProperty(indexed=False)
     timestamp = ndb.TimeProperty(indexed=False)
     text = ndb.TextProperty(indexed=False)
-    userId_user = ndb.StringProperty(indexed=False)
+
 
 class MainPage(webapp2.RequestHandler):
-
     def get(self):
         user = User()
         user.userId = "John Doe"
@@ -93,7 +102,7 @@ class MainPage(webapp2.RequestHandler):
         userTag.put()
         self.response.write('<html><body>This is the Huddles rest server</body></html>')
 
+
 application = webapp2.WSGIApplication([
     ('/', MainPage),
-
 ], debug=True)
