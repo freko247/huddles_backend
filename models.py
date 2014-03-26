@@ -34,49 +34,32 @@ from google.appengine.ext import ndb
 # verbose_name    string  None    Optional HTML label to use in web form frameworks like jinja2.
 
 
-#USERS ---------------------------------------------------
+#USER ---------------------------------------------------
 class User(ndb.Model):
-    userId = ndb.StringProperty(indexed=False)
+    userName = ndb.StringProperty(indexed=False)
+    userEmail = ndb.StringProperty(indexed=False)
+    userTag = ndb.StringProperty(indexed=False, repeated=True)
+    userFriend = ndb.StringProperty(indexed=False, repeated=True)
+
+class Rating(ndb.Model):
+    ratingUser = ndb.StringProperty(indexed=False)
+    ratingValue = ndb.IntegerProperty(indexed=False)
 
 
-class UserTags(ndb.Model):
-    tag = ndb.StringProperty(indexed=False)
+#HUDDLE ---------------------------------------------------
+class Huddle(ndb.Model):
+    huddleDateAndTime = ndb.DateTimeProperty(indexed=False)
+    huddleLocation = ndb.GeoPtProperty(indexed=False)
+    huddleAdmin = ndb.StringProperty(indexed=False)
+    huddleTags = ndb.StringProperty(indexed=False, repeated=True)
+    huddleUser = ndb.StringProperty(indexed=False, repeated=True)
 
 
-class UserRating(ndb.Model):
-    ratedUserId_user = ndb.StringProperty(indexed=False)
-    rating = ndb.IntegerProperty(indexed=False)
-
-
-class UserFriends(ndb.Model):
-    userFriendId_user = ndb.StringProperty(indexed=False)
-
-
-class userGroups(ndb.Model):
-    groupId_groups = ndb.StringProperty(indexed=False)
-
-
-#HUDDLES ---------------------------------------------------
-class Huddles(ndb.Model):
-    huddleId = ndb.StringProperty(indexed=False)
-    dateAndTime = ndb.DateTimeProperty(indexed=False)
-    location = ndb.GeoPtProperty(indexed=False)
-    adminUserId_user = ndb.StringProperty(indexed=False)
-
-
-class HuddleTags(ndb.Model):
-    tag = ndb.StringProperty(indexed=False)
-
-
-class UserHuddles(ndb.Model):
-    userId_user = ndb.StringProperty(indexed=False)
-
-
-#GROUPS ---------------------------------------------------
-class Groups(ndb.Model):
-    groupId = ndb.StringProperty(indexed=False)
-    huddleId_huddles = ndb.StringProperty(indexed=False)
-
+#GROUP ---------------------------------------------------
+class Group(ndb.Model):
+    groupHuddleId = ndb.StringProperty(indexed=False)
+    groupUser =     userGroup = ndb.StringProperty(indexed=False, repeated=True)
+    groupAdmin = ndb.StringProperty(indexed=False)
 
 class GroupAppointment(ndb.Model):
     appointmentName = ndb.StringProperty(indexed=False)
