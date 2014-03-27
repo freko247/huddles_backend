@@ -33,5 +33,4 @@ class DemoTestCase(unittest.TestCase):
 
     def testInsertEntity(self):
         userKey = testAddUser()
-        print userKey
         self.assertTrue(isinstance(userKey, ndb.Key))
