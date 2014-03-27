@@ -4,6 +4,8 @@ import optparse
 import sys
 import unittest2
 
+# Documentation for testing
+# https://developers.google.com/appengine/docs/python/tools/localunittesting
 
 USAGE = """%prog SDK_PATH TEST_PATH
 Run unit tests for App Engine apps.
