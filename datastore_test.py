@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import optparse
 import sys
-import unittest2
+import unittest
 
 # Documentation for testing
 # https://developers.google.com/appengine/docs/python/tools/localunittesting
@@ -17,11 +17,11 @@ def main(sdk_path, test_path):
     sys.path.insert(0, sdk_path)
     import dev_appserver
     dev_appserver.fix_sys_path()
-    suite = unittest2.loader.TestLoader().discover(test_path)
-    unittest2.TextTestRunner(verbosity=2).run(suite)
-    # Import models
-    import models
 
+    import userTest
+
+    suite = unittest.TestLoader().loadTestsFromTestCase(userTest.DemoTestCase)
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(USAGE)
