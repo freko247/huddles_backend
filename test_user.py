@@ -17,7 +17,11 @@ userFixtures = [{'userEmail': 'user@mail.com',
                  'userName': 'Jane Doe',
                  },
                 ]
-
+ratingFixtures = [{'userEmail': userFixtures[0]['userEmail'],
+                   'ratingUserEmail': userFixtures[1]['userEmail'],
+                   'ratingValue': 5,
+                   },
+                  ]
 
 class GenericTestCase(unittest.TestCase):
 
@@ -34,15 +38,10 @@ class GenericTestCase(unittest.TestCase):
         self.testbed.deactivate()
 
     def testAddUser(self):
-
         userKey = db_functions.addUser(userFixtures[0])
         self.assertTrue(isinstance(userKey, ndb.Key))
 
     def testAddUserRating(self):
         # Add rating
-        ratingData = {'userEmail': userFixtures[0]['userEmail'],
-                      'ratingUserEmail': userFixtures[1]['userEmail'],
-                      'ratingValue': 5,
-                      }
-        ratingKey = db_functions.addRating(ratingData)
+        ratingKey = db_functions.addRating(ratingFixtures[0])
         self.assertTrue(isinstance(ratingKey, ndb.Key))
