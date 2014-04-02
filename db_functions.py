@@ -42,9 +42,18 @@ def addRating(ratingData):
                              ratingValue=ratingData['ratingValue']).put()
 
 
-def addHuddle(huddleData):
-    pass
-
+def createHuddle(huddleData):
+    huddle = models.Huddle(key=ndb.Key('Huddle', huddleData['huddleName']))
+    huddle.populate(huddleDateAndTime=huddleData['huddleDateAndTime'],
+                    huddleLocation=huddleData['huddleLocation'],
+                    huddleName=huddleData['huddleName'],
+                    huddleAdmin=huddleData['huddleAdmin'],
+                    )
+    if huddleData.get('huddleTag'):
+        huddle.huddleTag = huddleData.get('huddleTag')
+    if huddleData.get('huddleUser'):
+        huddle.huddleUser = huddleData.get('huddleUser')
+    return huddle.put()
 
 def addGroup():
     pass
