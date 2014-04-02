@@ -12,8 +12,24 @@ def addUser(userData):
         if userData.get('userSkill'):
             user.userSkill = userData.get('userSkill')
         if userData.get('userTag'):
-            user.userSkill = userData.get('userTag')
+            user.userTag = userData.get('userTag')
         return user.put()
+
+
+def addUserSkill(userData):
+    user = ndb.Key('User', userData['userEmail']).get()
+    for skill in userData['userSkill']:
+        if skill not in user.userSkill:
+            user.userSkill += userData['userSkill']
+    return user.put()
+
+
+def removeUserSkill(userData):
+    user = ndb.Key('User', userData['userEmail']).get()
+    for skill in userData['userSkill']:
+        if skill in user.userSkill:
+            user.userSkill.remove(skill)
+    return user.put()
 
 
 def addRating(ratingData):
@@ -22,5 +38,17 @@ def addRating(ratingData):
                                          models.Rating,
                                          ratingData['ratingUserEmail'],
                                          ),
-                               ratingUser=ratingData['ratingUserEmail'],
-                               ratingValue=ratingData['ratingValue']).put()
+                             ratingUser=ratingData['ratingUserEmail'],
+                             ratingValue=ratingData['ratingValue']).put()
+
+
+def addHuddle(huddleData):
+    pass
+
+
+def addGroup():
+    pass
+
+
+def addGroupAppointment():
+    pass
