@@ -1,9 +1,8 @@
 # -*- coding:utf8 -*-
-import unittest
-
 from google.appengine.ext import testbed
 from google.appengine.ext import ndb
 
+import baseTest
 import db_functions
 import models
 
@@ -22,19 +21,7 @@ ratingFixtures = [{'userEmail': userFixtures[0]['userEmail'],
                    },
                   ]
 
-class GenericTestCase(unittest.TestCase):
-
-    def setUp(self):
-        # First, create an instance of the Testbed class.
-        self.testbed = testbed.Testbed()
-        # Then activate the testbed, which prepares the service stubs for use.
-        self.testbed.activate()
-        # Next, declare which service stubs you want to use.
-        self.testbed.init_datastore_v3_stub()
-        self.testbed.init_memcache_stub()
-
-    def tearDown(self):
-        self.testbed.deactivate()
+class HuddleTestCase(baseTest.GenericTestCase):
 
     def testAddUser(self):
         userKey = db_functions.addUser(userFixtures[0])
