@@ -55,9 +55,57 @@ def createHuddle(huddleData):
         huddle.huddleUser = huddleData.get('huddleUser')
     return huddle.put()
 
-def addGroup():
-    pass
+
+def createGroup(groupData):
+    group = models.Group(key=ndb.Key('Huddle',
+                                     groupData['huddleName'],
+                                     'Group',
+                                     groupData['groupName']
+                                     )
+                         )
+    group.populate(groupName=groupData['groupName'],
+                   groupAdmin=groupData['groupAdmin'],
+                   )
+    if groupData.get('groupUser'):
+        group.groupData = groupData.get('groupUser')
+    if groupData.get('groupUser'):
+        group.groupData = groupData.get('groupUser')
+    print group
+    return group.put()
 
 
-def addGroupAppointment():
-    pass
+def createGroupAppointment(appointmentData):
+    # TODO: Check that appointment is in the future.
+    appointment = models.GroupAppointment(key=ndb.Key('Huddle',
+                                                      appointmentData[
+                                                      'huddleName'],
+                                                      'Group',
+                                                      appointmentData[
+                                                      'groupName'],
+                                                      'GroupAppointment',
+                                                      appointmentData[
+                                                      'appointmentName']
+                                                      )
+                                          )
+    appointment.populate(appointmentName=appointmentData['appointmentName'],
+                         appointmentTime=appointmentData['appointmentTime'],
+                         )
+    return appointment.put()
+
+
+def postChatMessage(messageData):
+    message = models.GroupChat(key=ndb.Key('Huddle',
+                                           messageData[
+                                           'huddleName'],
+                                           'Group',
+                                           messageData[
+                                           'groupName'],
+                                           'GroupChat',
+                                           messageData['timestamp'].isoformat()
+                                           )
+                               )
+    message.populate(timestamp=messageData['timestamp'],
+                     author=messageData['author'],
+                     text=messageData['text'],
+                     )
+    return message.put()

@@ -68,11 +68,11 @@ class Group(ndb.Model):
 
 
 class GroupAppointment(ndb.Model):
-    appointmentName = ndb.StringProperty(indexed=False)
-    appointmentTime = ndb.DateTimeProperty(indexed=False)
+    appointmentName = ndb.StringProperty(indexed=False, required=True)
+    appointmentTime = ndb.DateTimeProperty(indexed=False, required=True)
 
 
 class GroupChat(ndb.Model):
-    timestamp = ndb.TimeProperty(indexed=False, required=True)
+    timestamp = ndb.DateTimeProperty(indexed=False, required=True)
     text = ndb.TextProperty(indexed=False, required=True)
     author = ndb.TextProperty(indexed=False, required=True)
