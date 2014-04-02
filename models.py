@@ -49,10 +49,11 @@ class Rating(ndb.Model):
 
 #HUDDLE ---------------------------------------------------
 class Huddle(ndb.Model):
-    huddleDateAndTime = ndb.DateTimeProperty(indexed=False)
-    huddleLocation = ndb.GeoPtProperty(indexed=False)
-    huddleAdmin = ndb.StringProperty(indexed=False)
-    huddleTags = ndb.StringProperty(indexed=False, repeated=True)
+    huddleDateAndTime = ndb.DateTimeProperty(indexed=False, required=True)
+    huddleLocation = ndb.GeoPtProperty(indexed=False, required=True)
+    huddleAdmin = ndb.StringProperty(indexed=False, required=True)
+    huddleName = ndb.StringProperty(indexed=False, required=True)
+    huddleTag = ndb.StringProperty(indexed=False, repeated=True)
     huddleUser = ndb.StringProperty(indexed=False, repeated=True)
 
 
