@@ -22,7 +22,8 @@ from google.appengine.ext import ndb
 # JsonProperty    Value is a Python object (such as a list or a dict or a string) that is serializable using Python's json module; the Datastore stores the JSON serialization as a blob. Unindexed by default. Optional keyword argument: compressed.
 # PickleProperty  Value is a Python object (such as a list or a dict or a string) that is serializable using Python's pickle protocol; the Datastore stores the pickle serialization as a blob. Unindexed by default. Optional keyword argument: compressed.
 # GenericProperty     Generic value Used mostly by the Expando class, but also usable explicitly. Its type may be any of int, long, float, bool, str, unicode, datetime, Key, BlobKey, GeoPt, User, None.
-# ComputedProperty    Value computed from other properties by a user-defined function. (See Computed Properties.)
+# ComputedProperty    Value computed from other properties by a
+# user-defined function. (See Computed Properties.)
 
 # Property options
 # indexed     bool        Usually True        Include property in Datastore's indexes; if False, values cannot be queried but writes are faster. Not all property types support indexing; setting indexed to True fails for these. Unindexed properties cost fewer write ops than indexed properties.
@@ -31,10 +32,11 @@ from google.appengine.ext import ndb
 # default     Property's underlying type  None    Default value of property if none explicitly specified. Cannot be combined with repeated=True but can be combined with required=True.
 # choices     List of values of underlying type   None        Optional list of allowable values.
 # validator       Function    None        Optional function to validate and possibly coerce the value. Will be called with arguments (prop, value) and should either return the (possibly coerced) value or raise an exception. Calling the function again on a coerced value should not modify the value further. (For example, returning value.strip() or value.lower() is fine, but not value + '$'.) May also return None, which means "no change". See also Writing Property Subclasses
-# verbose_name    string  None    Optional HTML label to use in web form frameworks like jinja2.
+# verbose_name    string  None    Optional HTML label to use in web form
+# frameworks like jinja2.
 
 
-#USER ---------------------------------------------------
+# USER ---------------------------------------------------
 class User(ndb.Model):
     userName = ndb.StringProperty(indexed=False, required=True)
     userEmail = ndb.StringProperty(indexed=False, required=True)
@@ -42,12 +44,13 @@ class User(ndb.Model):
     userTag = ndb.StringProperty(indexed=False, repeated=True)
     userFriend = ndb.StringProperty(indexed=False, repeated=True)
 
+
 class Rating(ndb.Model):
     ratingUser = ndb.StringProperty(indexed=False)
     ratingValue = ndb.IntegerProperty(indexed=False)
 
 
-#HUDDLE ---------------------------------------------------
+# HUDDLE ---------------------------------------------------
 class Huddle(ndb.Model):
     huddleDateAndTime = ndb.DateTimeProperty(indexed=False, required=True)
     huddleLocation = ndb.GeoPtProperty(indexed=False, required=True)
@@ -57,11 +60,12 @@ class Huddle(ndb.Model):
     huddleUser = ndb.StringProperty(indexed=False, repeated=True)
 
 
-#GROUP ---------------------------------------------------
+# GROUP ---------------------------------------------------
 class Group(ndb.Model):
-    groupHuddleId = ndb.StringProperty(indexed=False)
-    groupUser =     userGroup = ndb.StringProperty(indexed=False, repeated=True)
+    groupName = ndb.StringProperty(indexed=False, required=True)
+    groupUser = ndb.StringProperty(indexed=False, repeated=True)
     groupAdmin = ndb.StringProperty(indexed=False)
+
 
 class GroupAppointment(ndb.Model):
     appointmentName = ndb.StringProperty(indexed=False)
@@ -69,5 +73,6 @@ class GroupAppointment(ndb.Model):
 
 
 class GroupChat(ndb.Model):
-    timestamp = ndb.TimeProperty(indexed=False)
-    text = ndb.TextProperty(indexed=False)
+    timestamp = ndb.TimeProperty(indexed=False, required=True)
+    text = ndb.TextProperty(indexed=False, required=True)
+    author = ndb.TextProperty(indexed=False, required=True)
