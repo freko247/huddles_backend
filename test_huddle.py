@@ -8,16 +8,7 @@ from google.appengine.ext import ndb
 import baseTest
 import db_functions
 import models
-
-
-huddleFixtures = [{'huddleDateAndTime': datetime.now(),
-                   'huddleLocation': ndb.GeoPt('55.785061,12.519927'),
-                   'huddleAdmin': 'user@mail.com',
-                   'huddleName': 'Mobile Prototyping',
-                   'huddleTags': ['DTU', '02728', 'Digital Media Engineering'],
-                   'huddleUser': ['user@mail.com', 'tester@mail.com'],
-                   },
-                  ]
+from fixtures import huddleFixtures
 
 class HuddleTestCase(baseTest.GenericTestCase):
     def testCreateHuddle(self):

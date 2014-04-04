@@ -5,21 +5,7 @@ from google.appengine.ext import ndb
 import baseTest
 import db_functions
 import models
-
-userFixtures = [{'userEmail': 'user@mail.com',
-                'userName': 'John Doe',
-                'userSkill': ['Python', 'Communication', 'Leadership'],
-                'userTag': ['DTU', 'Digital Media Engineering', 'Android'],
-                 },
-                {'userEmail': 'rating.user@mail.com',
-                 'userName': 'Jane Doe',
-                 },
-                ]
-ratingFixtures = [{'userEmail': userFixtures[0]['userEmail'],
-                   'ratingUserEmail': userFixtures[1]['userEmail'],
-                   'ratingValue': 5,
-                   },
-                  ]
+from fixtures import userFixtures, ratingFixtures
 
 class HuddleTestCase(baseTest.GenericTestCase):
 
