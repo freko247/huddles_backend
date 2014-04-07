@@ -6,6 +6,7 @@ import cgi
 import jinja2
 import webapp2
 
+import db_functions
 
 # class Rest(webapp2.RequestHandler):
 
@@ -52,24 +53,30 @@ import webapp2
 #         split = self.request.path_info[1:].split(':')
 #         db.delete(db.Key.from_path(split[0], int(split[1])))
 
+class Rest(webapp2.RequestHandler):
+
+    def get(self):
+        self.response.write(
+            '<html><body>This is the Huddles rest server API page</body></html>')
+
+    def post(self):
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
+        functions = {'addUser': db_functions.addUser}
+        userData = {}
+        for argument in self.request.arguments():
+            userData[argument] = self.request.get(argument, allow_multiple=True),
+        entityKey = functions.get(userData.pop('db_function'))(userData)
+
 
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-        # TODO: Rename test page and also delete entitie after creation
-        import db_functions
-        import fixtures
-        userKey = db_functions.addUser(fixtures.userFixtures[0])
-        userRating = db_functions.addRating(fixtures.ratingFixtures[0])
-        groupKey = db_functions.createGroup(fixtures.groupFixtures[0])
-        appointmentKey = db_functions.createGroupAppointment(
-            fixtures.appointmentFixtures[0])
-        huddleKey = db_functions.createHuddle(fixtures.huddleFixtures[0])
+        # TODO: Rename test page and also delete entities after creation
         self.response.write(
             '<html><body>This is the Huddles rest server</body></html>')
 
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
-    # ('/api.*', Rest),
+    ('/api', Rest),
 ], debug=True)
