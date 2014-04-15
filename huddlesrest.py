@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-
-import os
-import cgi
-
-import jinja2
 import webapp2
+import json
 
 import db_functions
+
 
 # class Rest(webapp2.RequestHandler):
 
@@ -53,19 +50,26 @@ import db_functions
 #         split = self.request.path_info[1:].split(':')
 #         db.delete(db.Key.from_path(split[0], int(split[1])))
 
+
 class Rest(webapp2.RequestHandler):
 
     def get(self):
-        self.response.write(
-            '<html><body>This is the Huddles rest server API page</body></html>')
+        self.response.write('<html><body>'
+                            'This is the Huddles rest server API page'
+                            '</body></html>')
 
     def post(self):
         self.response.headers['Access-Control-Allow-Origin'] = '*'
+        self.response.headers['Content-Type'] = 'application/json'
         functions = {'addUser': db_functions.addUser}
         userData = {}
         for argument in self.request.arguments():
-            userData[argument] = self.request.get(argument, allow_multiple=True),
-        entityKey = functions.get(userData.pop('db_function'))(userData)
+            tmp = self.request.get_all(argument)
+            if len(tmp) <= 1:
+                tmp = tmp[0]
+            userData[argument] = tmp
+        functions.get(userData['db_function'])(userData)
+        self.response.out.write(json.dumps('success'))
 
 
 class MainPage(webapp2.RequestHandler):
