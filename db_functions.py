@@ -95,11 +95,9 @@ def createGroupAppointment(appointmentData):
 
 def postChatMessage(messageData):
     message = models.GroupChat(key=ndb.Key('Huddle',
-                                           messageData[
-                                           'huddleName'],
+                                           messageData['huddleName'],
                                            'Group',
-                                           messageData[
-                                           'groupName'],
+                                           messageData['groupName'],
                                            'GroupChat',
                                            messageData['timestamp'].isoformat()
                                            )
