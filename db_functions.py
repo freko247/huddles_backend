@@ -8,6 +8,7 @@ def addUser(userData):
         user = models.User(key=ndb.Key('User', userData['userEmail']))
         user.populate(userEmail=userData['userEmail'],
                       userName=userData['userName'],
+                      userPassword=userData['userPassword'],
                       )
         if userData.get('userSkill'):
             user.userSkill = userData.get('userSkill')

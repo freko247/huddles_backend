@@ -7,6 +7,7 @@ from google.appengine.ext import ndb
 class User(ndb.Model):
     userName = ndb.StringProperty(indexed=False, required=True)
     userEmail = ndb.StringProperty(indexed=False, required=True)
+    userPassword = ndb.StringProperty(indexed=False, required=True)
     userSkill = ndb.StringProperty(indexed=False, repeated=True)
     userTag = ndb.StringProperty(indexed=False, repeated=True)
     userFriend = ndb.StringProperty(indexed=False, repeated=True)
