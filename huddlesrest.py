@@ -61,7 +61,8 @@ class Rest(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/json'
-        functions = {'addUser': db_functions.addUser}
+        functions = {'addUser': db_functions.addUser,
+                     'createHuddle': db_functions.createHuddle}
         userData = {}
         for argument in self.request.arguments():
             tmp = self.request.get_all(argument)

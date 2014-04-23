@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from google.appengine.ext import ndb
 
 import models
@@ -45,8 +46,11 @@ def addRating(ratingData):
 
 def createHuddle(huddleData):
     huddle = models.Huddle(key=ndb.Key('Huddle', huddleData['huddleName']))
-    huddle.populate(huddleDateAndTime=huddleData['huddleDateAndTime'],
-                    huddleLocation=huddleData['huddleLocation'],
+    huddleDateAndTime = datetime.datetime.utcfromtimestamp(
+        int(huddleData['huddleDateAndTime'][:-3]))
+    huddleLocation = ndb.GeoPt(','.join(huddleData['huddleLocation']))
+    huddle.populate(huddleDateAndTime=huddleDateAndTime,
+                    huddleLocation=huddleLocation,
                     huddleName=huddleData['huddleName'],
                     huddleAdmin=huddleData['huddleAdmin'],
                     )
