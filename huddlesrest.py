@@ -16,15 +16,18 @@ class Rest(webapp2.RequestHandler):
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/json'
         functions = {'addUser': db_functions.addUser,
-                     'createHuddle': db_functions.createHuddle}
-        userData = {}
+                     'createHuddle': db_functions.createHuddle,
+                     'getSuggestedHuddles': db_functions.getSuggestedHuddles,
+                     'getHuddleInfo': db_functions.getHuddleInfo,
+                     }
+        data = {}
         for argument in self.request.arguments():
             tmp = self.request.get_all(argument)
             if len(tmp) <= 1:
                 tmp = tmp[0]
-            userData[argument] = tmp
-        functions.get(userData['db_function'])(userData)
-        self.response.out.write(json.dumps('success'))
+            data[argument] = tmp
+        result = functions.get(data['db_function'])(data)
+        self.response.out.write(json.dumps(result))
 
 
 class MainPage(webapp2.RequestHandler):

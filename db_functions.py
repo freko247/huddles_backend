@@ -15,7 +15,8 @@ def addUser(userData):
             user.userSkill = userData.get('userSkill')
         if userData.get('userTag'):
             user.userTag = userData.get('userTag')
-        return user.put()
+        user.put()
+        return "success!"
 
 
 def addUserSkill(userData):
@@ -112,3 +113,15 @@ def postChatMessage(messageData):
                      text=messageData['text'],
                      )
     return message.put()
+
+
+def getSuggestedHuddles(userData):
+    qr1 = models.Huddle.query()
+    huddles = []
+    for huddle in qr1:
+        huddles.append(huddle.huddleName)
+    return huddles
+
+
+def getHuddleInfo(huddleData):
+    qr1 = models.Huddle.query()
