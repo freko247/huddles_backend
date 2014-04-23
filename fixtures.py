@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from google.appengine.ext import ndb
-
 from datetime import datetime
 
 userFixtures = [{'userEmail': 'user@mail.com',
@@ -20,8 +18,11 @@ ratingFixtures = [{'userEmail': userFixtures[0]['userEmail'],
                    },
                   ]
 
-huddleFixtures = [{'huddleDateAndTime': datetime.now(),
-                   'huddleLocation': ndb.GeoPt('55.785061,12.519927'),
+huddle_timestamp = datetime.now() - datetime.utcfromtimestamp(0)
+huddle_timestamp = ('%.0f' % (huddle_timestamp.total_seconds()*1000))[:-3]
+
+huddleFixtures = [{'huddleDateAndTime': huddle_timestamp,
+                   'huddleLocation': ['55.785061','12.519927'],
                    'huddleAdmin': userFixtures[0]['userEmail'],
                    'huddleName': 'Mobile Prototyping',
                    'huddleTags': ['DTU', '02728', 'Digital Media Engineering'],
