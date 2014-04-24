@@ -6,17 +6,17 @@ import models
 
 
 def addUser(userData):
-        user = models.User(key=ndb.Key('User', userData['userEmail']))
-        user.populate(userEmail=userData['userEmail'],
-                      userName=userData['userName'],
-                      userPassword=userData['userPassword'],
-                      )
-        if userData.get('userSkill'):
-            user.userSkill = userData.get('userSkill')
-        if userData.get('userTag'):
-            user.userTag = userData.get('userTag')
-        user.put()
-        return "success!"
+    user = models.User(key=ndb.Key('User', userData['userEmail']))
+    user.populate(userEmail=userData['userEmail'],
+                  userName=userData['userName'],
+                  userPassword=userData['userPassword'],
+                  )
+    if userData.get('userSkill'):
+        user.userSkill = userData.get('userSkill')
+    if userData.get('userTag'):
+        user.userTag = userData.get('userTag')
+    user.put()
+    return user.userEmail
 
 
 def addUserSkill(userData):
@@ -24,7 +24,8 @@ def addUserSkill(userData):
     for skill in userData['userSkill']:
         if skill not in user.userSkill:
             user.userSkill += userData['userSkill']
-    return user.put()
+    user.put()
+    return user.userSkill
 
 
 def removeUserSkill(userData):
@@ -32,17 +33,20 @@ def removeUserSkill(userData):
     for skill in userData['userSkill']:
         if skill in user.userSkill:
             user.userSkill.remove(skill)
-    return user.put()
+    user.put()
+    return user.userSkill
 
 
 def addRating(ratingData):
-        return models.Rating(key=ndb.Key(models.User,
-                                         ratingData['userEmail'],
-                                         models.Rating,
-                                         ratingData['ratingUserEmail'],
-                                         ),
-                             ratingUser=ratingData['ratingUserEmail'],
-                             ratingValue=ratingData['ratingValue']).put()
+    rating = models.Rating(key=ndb.Key(models.User,
+                                       ratingData['userEmail'],
+                                       models.Rating,
+                                       ratingData['ratingUserEmail'],
+                                       ),
+                           ratingUser=ratingData['ratingUserEmail'],
+                           ratingValue=ratingData['ratingValue'])
+    rating.put()
+    return rating.ratingUser
 
 
 def createHuddle(huddleData):
@@ -59,7 +63,8 @@ def createHuddle(huddleData):
         huddle.huddleTag = huddleData.get('huddleTag')
     if huddleData.get('huddleUser'):
         huddle.huddleUser = huddleData.get('huddleUser')
-    return huddle.put()
+    huddle.put()
+    return huddle.huddleName
 
 
 def createGroup(groupData):
@@ -76,8 +81,8 @@ def createGroup(groupData):
         group.groupData = groupData.get('groupUser')
     if groupData.get('groupUser'):
         group.groupData = groupData.get('groupUser')
-    print group
-    return group.put()
+    group.put()
+    return group.groupAdmin
 
 
 def createGroupAppointment(appointmentData):
@@ -96,7 +101,8 @@ def createGroupAppointment(appointmentData):
     appointment.populate(appointmentName=appointmentData['appointmentName'],
                          appointmentTime=appointmentData['appointmentTime'],
                          )
-    return appointment.put()
+    appointment.put()
+    return appointment.appointmentName
 
 
 def postChatMessage(messageData):
@@ -112,7 +118,8 @@ def postChatMessage(messageData):
                      author=messageData['author'],
                      text=messageData['text'],
                      )
-    return message.put()
+    message.put()
+    return message.author
 
 
 def getSuggestedHuddles(userData):
@@ -124,4 +131,10 @@ def getSuggestedHuddles(userData):
 
 
 def getHuddleInfo(huddleData):
+    print 'searching for: ', huddleData['huddleName']
     qr1 = models.Huddle.query()
+    for huddle in qr1:
+        print huddle.huddleName, huddle.huddleTag
+        if huddle.huddleName == huddleData['huddleName']:
+            print 'its a match'
+    return "success"
