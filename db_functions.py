@@ -136,12 +136,10 @@ def getSuggestedHuddles(userData):
 
 
 def getHuddleInfo(huddleData):
-    qr1 = models.Huddle.query()
+    qr1 = models.Huddle.query(
+        models.Huddle.huddleName == huddleData['huddleName'])
     logging.debug('type: %s, name: %s' %
                   (type(huddleData['huddleName']), huddleData['huddleName']))
     for huddle in qr1:
-        logging.debug('type: %s, name: %s' %
-                      (type(huddle.huddleName), huddle.huddleName))
         if huddle.huddleName == huddleData['huddleName']:
             return huddle.huddleTag
-    return ['DTU', '02728', 'Digital Media Engineering']
