@@ -21,6 +21,7 @@ class Rest(webapp2.RequestHandler):
                      'createHuddle': db_functions.createHuddle,
                      'getSuggestedHuddles': db_functions.getSuggestedHuddles,
                      'getHuddleInfo': db_functions.getHuddleInfo,
+                     'joinHuddle': db_functions.joinHuddle,
                      }
         data = {}
         for argument in self.request.arguments():
