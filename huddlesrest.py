@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-import webapp2
 import json
+import logging
+import urllib
+import webapp2
 
 import db_functions
 
@@ -23,6 +25,11 @@ class Rest(webapp2.RequestHandler):
         data = {}
         for argument in self.request.arguments():
             tmp = self.request.get_all(argument)
+            if isinstance(tmp, list):
+                tmp = [urllib.unquote_plus(value) for value in tmp]
+            else:
+                urllib.unquote_plus(tmp)
+            logging.debug('Argument: %s, Value: %s' % (argument, tmp))
             if len(tmp) <= 1:
                 tmp = tmp[0]
             data[argument] = tmp
@@ -36,7 +43,6 @@ class MainPage(webapp2.RequestHandler):
         # TODO: Rename test page and also delete entities after creation
         self.response.write(
             '<html><body>This is the Huddles rest server</body></html>')
-
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
