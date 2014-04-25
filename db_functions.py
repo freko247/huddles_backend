@@ -152,7 +152,13 @@ def joinHuddle(huddleData):
                   (type(huddleData['huddleName']), huddleData['huddleName']))
     for huddle in qr1:
         if huddle.huddleName == huddleData['huddleName']:
-            if huddleData['huddleUser'] not in huddle.huddleUser:
-                huddle.huddleUser += huddleData['huddleUser']
-                huddle.put()
+            logging.debug(
+                "Adding user: %s, to huddle: %s" % (
+                    huddleData['huddleUser'], huddle.huddleName))
+            if not isinstance(huddleData['huddleUser'], list):
+                huddleData['huddleUser'] = [huddleData['huddleUser']]
+            for user in huddleData['huddleUser']:
+                if user not in huddle.huddleUser:
+                    huddle.huddleUser += huddleData['huddleUser']
+            huddle.put()
             return huddle.huddleUser
