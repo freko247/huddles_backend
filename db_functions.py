@@ -143,3 +143,16 @@ def getHuddleInfo(huddleData):
     for huddle in qr1:
         if huddle.huddleName == huddleData['huddleName']:
             return huddle.huddleTag
+
+
+def joinHuddle(huddleData):
+    qr1 = models.Huddle.query(
+        models.Huddle.huddleName == huddleData['huddleName'])
+    logging.debug('type: %s, name: %s' %
+                  (type(huddleData['huddleName']), huddleData['huddleName']))
+    for huddle in qr1:
+        if huddle.huddleName == huddleData['huddleName']:
+            if huddleData['huddleUser'] not in huddle.huddleUser:
+                huddle.huddleUser += huddleData['huddleUser']
+                huddle.put()
+            return huddle.huddleUser
