@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import datetime
+import logging
 from google.appengine.ext import ndb
 
 import models
+
+logging.getLogger().setLevel(logging.DEBUG)
 
 
 def addUser(userData):
@@ -60,7 +63,9 @@ def createHuddle(huddleData):
                     huddleAdmin=huddleData['huddleAdmin'],
                     )
     if huddleData.get('huddleTag'):
-        huddle.huddleTag = huddleData.get('huddleTag')
+        huddleTag = [tag for tag in huddleData.get('huddleTag') if len(
+            tag.rstrip()) > 0]
+        huddle.huddleTag = huddleTag
     if huddleData.get('huddleUser'):
         huddle.huddleUser = huddleData.get('huddleUser')
     huddle.put()
@@ -131,10 +136,12 @@ def getSuggestedHuddles(userData):
 
 
 def getHuddleInfo(huddleData):
-    print 'searching for: ', huddleData['huddleName']
     qr1 = models.Huddle.query()
+    logging.debug('type: %s, name: %s' %
+                  (type(huddleData['huddleName']), huddleData['huddleName']))
     for huddle in qr1:
-        print huddle.huddleName, huddle.huddleTag
+        logging.debug('type: %s, name: %s' %
+                      (type(huddle.huddleName), huddle.huddleName))
         if huddle.huddleName == huddleData['huddleName']:
-            print 'its a match'
-    return "success"
+            return huddle.huddleTag
+    return ['DTU', '02728', 'Digital Media Engineering']
