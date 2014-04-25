@@ -1,5 +1,5 @@
 # -*- coding:utf8 -*-
-from google.appengine.ext import ndb
+import copy
 
 import baseTest
 import db_functions
@@ -13,7 +13,7 @@ class HuddleTestCase(baseTest.GenericTestCase):
         self.assertEqual(userFixtures[0]['userEmail'], userEmail)
 
     def testAddUserSkill(self):
-        userData = userFixtures[0]
+        userData = copy.deepcopy(userFixtures[0])
         userData['userSkill'].pop()
         db_functions.addUser(userData)
         userData = {'userEmail': userFixtures[0]['userEmail'],
