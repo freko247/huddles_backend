@@ -161,3 +161,11 @@ def joinHuddle(huddleData):
                 huddle.huddleUser += huddleData['huddleUser']
         huddle.put()
         return huddle.huddleUser
+
+
+def getHuddleUsers(huddleData):
+    qr1 = models.Huddle.query(
+        models.Huddle.huddleName == huddleData['huddleName'])
+    for huddle in qr1:
+        logging.debug("Huddle users are: %s" % huddle.huddleUser)
+        return huddle.huddleUser

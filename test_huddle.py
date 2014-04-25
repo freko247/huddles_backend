@@ -24,3 +24,8 @@ class HuddleTestCase(baseTest.GenericTestCase):
             {'huddleName': huddleName,
              'huddleUser': [huddleFixtures[0]['huddleUser'][-1], ]})
         self.assertEqual(huddleFixtures[0]['huddleUser'], huddleUser)
+
+    def testGetHuddleUsers(self):
+        huddleName = db_functions.createHuddle(huddleFixtures[0])
+        huddleUsers = db_functions.getHuddleUsers({'huddleName': huddleName})
+        self.assertEqual(huddleFixtures[0]['huddleUser'], huddleUsers)
