@@ -169,3 +169,13 @@ def getHuddleUsers(huddleData):
     for huddle in qr1:
         logging.debug("Huddle users are: %s" % huddle.huddleUser)
         return huddle.huddleUser
+
+
+def authenticateUser(userData):
+    qr1 = models.User.query(ndb.AND(
+        models.User.userEmail == userData['userEmail'],
+        models.User.userPassword == userData['userPassword'],
+        ))
+    for user in qr1:
+        logging.debug("Authenticated user: %s" % user.userEmail)
+        return user.userEmail

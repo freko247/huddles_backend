@@ -34,3 +34,10 @@ class HuddleTestCase(baseTest.GenericTestCase):
         # Add rating
         ratingUserEmail = db_functions.addRating(ratingFixtures[0])
         self.assertEqual(ratingFixtures[0]['ratingUserEmail'], ratingUserEmail)
+
+    def testAuthenticateUser(self):
+        userEmail = db_functions.addUser(userFixtures[0])
+        authenticatedUserEmail = db_functions.authenticateUser(
+            {'userEmail': userEmail,
+             'userPassword': userFixtures[0]['userPassword']})
+        self.assertEqual(userFixtures[0]['userEmail'], authenticatedUserEmail)
