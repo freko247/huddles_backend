@@ -13,6 +13,8 @@ class GenericTestCase(unittest.TestCase):
         # Next, declare which service stubs you want to use.
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
+        self.testbed.init_blobstore_stub()
+        self.testbed.init_files_stub()
 
     def tearDown(self):
         self.testbed.deactivate()

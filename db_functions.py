@@ -14,6 +14,18 @@ def addUser(userData):
                   userName=userData['userName'],
                   userPassword=userData['userPassword'],
                   )
+    if userData.get('userAvatar'):
+        from google.appengine.api import files
+        decoded = userData.get('userAvatar').decode('base64')
+        # Create the file
+        file_name = files.blobstore.create(mime_type='image/png')
+        # Open the file and write to it
+        with files.open(file_name, 'a') as f:
+            f.write(decoded)
+        # Finalize the file. Do this before attempting to read it.
+        files.finalize(file_name)
+        key = files.blobstore.get_blob_key(file_name)
+        user.userAvatarKey = key
     if userData.get('userSkill'):
         user.userSkill = userData.get('userSkill')
     if userData.get('userTag'):

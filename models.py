@@ -11,6 +11,7 @@ class User(ndb.Model):
     userSkill = ndb.StringProperty(indexed=False, repeated=True)
     userTag = ndb.StringProperty(indexed=False, repeated=True)
     userFriend = ndb.StringProperty(indexed=False, repeated=True)
+    userAvatarKey = ndb.BlobKeyProperty(indexed=False)
 
 
 class Rating(ndb.Model):
