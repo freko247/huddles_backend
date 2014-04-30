@@ -24,6 +24,7 @@ class Rest(webapp2.RequestHandler):
                      'joinHuddle': db_functions.joinHuddle,
                      'getHuddleUsers': db_functions.getHuddleUsers,
                      'authenticateUser': db_functions.authenticateUser,
+                     'getUserAvatar': db_functions.getUserAvatar,
                      }
         data = {}
         for argument in self.request.arguments():

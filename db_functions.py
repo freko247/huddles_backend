@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 import logging
-from google.appengine.ext import ndb
+from google.appengine.ext import blobstore, ndb
 
 import models
 
@@ -18,7 +18,9 @@ def addUser(userData):
         from google.appengine.api import files
         decoded = userData.get('userAvatar').decode('base64')
         # Create the file
-        file_name = files.blobstore.create(mime_type='image/png')
+        file_name = files.blobstore.create(
+            mime_type='image/png',
+            _blobinfo_uploaded_filename=userData['userEmail'])
         # Open the file and write to it
         with files.open(file_name, 'a') as f:
             f.write(decoded)
@@ -191,3 +193,12 @@ def authenticateUser(userData):
     for user in qr1:
         logging.debug("Authenticated user: %s" % user.userEmail)
         return user.userEmail
+
+
+def getUserAvatar(userData):
+    qr1 = models.User.query(models.User.userEmail == userData['userEmail'])
+    for user in qr1:
+        logging.debug("Getting avatar for user: %s" % user.userEmail)
+        blob_reader = blobstore.BlobReader(user.userAvatarKey)
+        value = blob_reader.read().encode('base64')
+        return value
