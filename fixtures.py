@@ -106,3 +106,7 @@ chatFixtures = [{'huddleName': huddleFixtures[0]['huddleName'],
                  'author': userFixtures[0]['userEmail'],
                  },
                 ]
+geoFixtures = [{'startLat':0.,
+                 'distance': 1000.,
+                 'dlat': 0.00899068,
+                 'dlon': 0.00899068}]
