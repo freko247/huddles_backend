@@ -22,7 +22,7 @@ class HuddleTestCase(baseTest.GenericTestCase):
         self.assertEqual(huddleFixtures[0]['huddleName'], huddle[0])
         self.assertEqual(huddleFixtures[0]['huddleTag'], huddle[1])
         self.assertEqual(huddleFixtures[0]['huddleLocation'], huddle[2])
-        self.assertEqual(huddlesTimestamp, huddle[3])
+        self.assertEqual(str(huddlesTimestamp), huddle[3])
 
     def testJoinHuddle(self):
         huddleData = copy.deepcopy(huddleFixtures[0])
@@ -50,4 +50,4 @@ class HuddleTestCase(baseTest.GenericTestCase):
         self.assertEqual(huddleFixtures[0]['huddleName'], huddles[0][0])
         self.assertEqual(huddleFixtures[0]['huddleTag'], huddles[0][1])
         self.assertEqual(huddleFixtures[0]['huddleLocation'], huddles[0][2])
-        self.assertEqual(huddlesTimestamp, huddles[0][3])
+        self.assertEqual(str(huddlesTimestamp), huddles[0][3])

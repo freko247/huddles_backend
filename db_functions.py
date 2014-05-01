@@ -167,7 +167,7 @@ def getHuddleInfo(huddleData):
                 huddle.huddleTag,
                 [str(huddle.huddleLocation.lat),
                  str(huddle.huddleLocation.lon)],
-                huddle.huddleDateAndTime,
+                str(huddle.huddleDateAndTime),
                 ]
 
 
