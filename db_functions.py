@@ -112,17 +112,15 @@ def createGroup(groupData):
 
 def createGroupAppointment(appointmentData):
     # TODO: Check that appointment is in the future.
-    appointment = models.GroupAppointment(key=ndb.Key('Huddle',
-                                                      appointmentData[
-                                                      'huddleName'],
-                                                      'Group',
-                                                      appointmentData[
-                                                      'groupName'],
-                                                      'GroupAppointment',
-                                                      appointmentData[
-                                                      'appointmentName']
-                                                      )
-                                          )
+    appointment = models.GroupAppointment(
+        key=ndb.Key('Huddle',
+                    appointmentData['huddleName'],
+                    'Group',
+                    appointmentData['groupName'],
+                    'GroupAppointment',
+                    appointmentData['appointmentName']
+                    )
+        )
     appointment.populate(appointmentName=appointmentData['appointmentName'],
                          appointmentTime=appointmentData['appointmentTime'],
                          )
@@ -147,22 +145,30 @@ def postChatMessage(messageData):
     return message.author
 
 
-def getSuggestedHuddles(userData):
-    qr1 = models.Huddle.query()
+def getSuggestedHuddles(settingsData):
     huddles = []
-    for huddle in qr1:
-        huddles.append(huddle.huddleName)
+    if settingsData.get('userLocation') and settingsData.get('filterDistance'):
+        huddleNames = document_functions.getHuddlesInRange(settingsData)
+        for huddleName in huddleNames:
+            huddleInfo = getHuddleInfo({'huddleName': huddleName})
+        huddles.append(huddleInfo)
+    else:
+        qr1 = models.Huddle.query()
+        for huddle in qr1:
+            huddles.append(huddle.huddleName)
     return huddles
 
 
 def getHuddleInfo(huddleData):
     qr1 = models.Huddle.query(
         models.Huddle.huddleName == huddleData['huddleName'])
-    logging.debug('type: %s, name: %s' %
-                  (type(huddleData['huddleName']), huddleData['huddleName']))
     for huddle in qr1:
-        if huddle.huddleName == huddleData['huddleName']:
-            return huddle.huddleTag
+        return [huddle.huddleName,
+                huddle.huddleTag,
+                [str(huddle.huddleLocation.lat),
+                 str(huddle.huddleLocation.lon)],
+                huddle.huddleDateAndTime,
+                ]
 
 
 def joinHuddle(huddleData):
@@ -195,7 +201,7 @@ def authenticateUser(userData):
     qr1 = models.User.query(ndb.AND(
         models.User.userEmail == userData['userEmail'],
         models.User.userPassword == userData['userPassword'],
-        ))
+    ))
     for user in qr1:
         logging.debug("Authenticated user: %s" % user.userEmail)
         return user.userEmail
