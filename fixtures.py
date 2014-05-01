@@ -28,7 +28,7 @@ ratingFixtures = [{'userEmail': userFixtures[0]['userEmail'],
                   ]
 
 huddle_timestamp = datetime.now() - datetime.utcfromtimestamp(0)
-huddle_timestamp = ('%.0f' % (huddle_timestamp.total_seconds() * 1000))[:-3]
+huddle_timestamp = ('%.0f' % (huddle_timestamp.total_seconds() * 1000))
 
 huddleFixtures = [{'huddleDateAndTime': huddle_timestamp,
                    'huddleLocation': ['55.785061', '12.519927'],
