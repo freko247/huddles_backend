@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from google.appengine.ext import ndb
 
 
@@ -27,6 +26,7 @@ class Huddle(ndb.Model):
     huddleName = ndb.StringProperty(indexed=True, required=True)
     huddleTag = ndb.StringProperty(indexed=False, repeated=True)
     huddleUser = ndb.StringProperty(indexed=False, repeated=True)
+    huddleGeoDocId = ndb.StringProperty(indexed=True)
 
 
 # GROUP ---------------------------------------------------

@@ -1,8 +1,8 @@
 # -*- coding:utf8 -*-
 import baseTest
 import copy
-import db_functions
-from fixtures import huddleFixtures
+import db_functions, document_functions
+from fixtures import huddleFixtures, settingsFixtures
 
 
 class HuddleTestCase(baseTest.GenericTestCase):
@@ -29,3 +29,8 @@ class HuddleTestCase(baseTest.GenericTestCase):
         huddleName = db_functions.createHuddle(huddleFixtures[0])
         huddleUsers = db_functions.getHuddleUsers({'huddleName': huddleName})
         self.assertEqual(huddleFixtures[0]['huddleUser'], huddleUsers)
+
+    def testGetHuddlesInRange(self):
+        db_functions.createHuddle(huddleFixtures[0])
+        document_functions.getHuddlesInRange(settingsFixtures)
+        self.assertEqual(1, 1)

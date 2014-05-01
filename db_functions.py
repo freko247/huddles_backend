@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import datetime
 import logging
+
 from google.appengine.ext import blobstore, ndb
 
+import document_functions
 import models
 
 logging.getLogger().setLevel(logging.DEBUG)
@@ -71,10 +73,14 @@ def createHuddle(huddleData):
     huddleDateAndTime = datetime.datetime.utcfromtimestamp(
         int(huddleData['huddleDateAndTime'][:-3]))
     huddleLocation = ndb.GeoPt(','.join(huddleData['huddleLocation']))
+    huddleGeoDocId = document_functions.createHuddleGeoDoc(
+        {'huddleLocation': huddleData['huddleLocation'],
+         'huddleName': huddleData['huddleName']})
     huddle.populate(huddleDateAndTime=huddleDateAndTime,
                     huddleLocation=huddleLocation,
                     huddleName=huddleData['huddleName'],
                     huddleAdmin=huddleData['huddleAdmin'],
+                    huddleGeoDocId=huddleGeoDocId,
                     )
     if huddleData.get('huddleTag'):
         huddleTag = [tag for tag in huddleData.get('huddleTag') if len(

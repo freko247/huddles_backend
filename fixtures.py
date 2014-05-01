@@ -5,12 +5,16 @@ with open("res/avatar.png", "rb") as f:
     data = f.read()
     userAvatar = data.encode("base64")
 
+settingsFixtures = {'userLocation': ['55.7852', '12.5198'],
+                    'filterDistance': 100.,
+                    }
+
 userFixtures = [{'userEmail': 'user@mail.com',
-                'userName': 'John Doe',
-                'userPassword': 'password1',
-                'userSkill': ['Python', 'Communication', 'Leadership'],
-                'userTag': ['DTU', 'Digital Media Engineering', 'Android'],
-                'userAvatar': userAvatar,
+                 'userName': 'John Doe',
+                 'userPassword': 'password1',
+                 'userSkill': ['Python', 'Communication', 'Leadership'],
+                 'userTag': ['DTU', 'Digital Media Engineering', 'Android'],
+                 'userAvatar': userAvatar,
                  },
                 {'userEmail': 'tester@mail.com',
                  'userName': 'Jane Doe',
