@@ -38,6 +38,8 @@ class Rest(webapp2.RequestHandler):
                 tmp = tmp[0]
             data[argument] = tmp
         result = functions.get(data['db_function'])(data)
+        logging.debug('Function: %s, Response: %s' % (data['db_function'],
+                                                      json.dumps(result)))
         self.response.out.write(json.dumps(result))
 
 
