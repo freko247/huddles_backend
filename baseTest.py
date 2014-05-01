@@ -15,6 +15,7 @@ class GenericTestCase(unittest.TestCase):
         self.testbed.init_memcache_stub()
         self.testbed.init_blobstore_stub()
         self.testbed.init_files_stub()
+        self.testbed.init_search_stub()
 
     def tearDown(self):
         self.testbed.deactivate()
