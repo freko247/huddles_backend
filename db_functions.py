@@ -208,8 +208,10 @@ def getUserInfo(userData):
     qr1 = models.User.query(models.User.userEmail == userData['userEmail'])
     for user in qr1:
         logging.debug("Getting avatar for user: %s" % user.userEmail)
-        blob_reader = blobstore.BlobReader(user.userAvatarKey)
-        userAvatar = blob_reader.read().encode('base64')
+        userAvatar = ""
+        if user.userAvatarKey:
+            blob_reader = blobstore.BlobReader(user.userAvatarKey)
+            userAvatar = blob_reader.read().encode('base64')
         return [user.userName,
                 user.userSkill,
                 userAvatar,
