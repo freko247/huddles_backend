@@ -148,10 +148,7 @@ def postChatMessage(messageData):
 def getSuggestedHuddles(settingsData):
     huddles = []
     if settingsData.get('userLocation') and settingsData.get('filterDistance'):
-        huddleNames = document_functions.getHuddlesInRange(settingsData)
-        for huddleName in huddleNames:
-            huddleInfo = getHuddleInfo({'huddleName': huddleName})
-        huddles.append(huddleInfo)
+        huddles = document_functions.getHuddlesInRange(settingsData)
     else:
         qr1 = models.Huddle.query()
         for huddle in qr1:
