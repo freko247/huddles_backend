@@ -2,7 +2,6 @@
 import baseTest
 from datetime import datetime
 import copy
-import logging
 
 import db_functions
 from fixtures import huddleFixtures, settingsFixtures
@@ -41,13 +40,4 @@ class HuddleTestCase(baseTest.GenericTestCase):
     def testGetHuddlesInRange(self):
         db_functions.createHuddle(huddleFixtures[0])
         huddles = db_functions.getSuggestedHuddles(settingsFixtures)
-        logging.debug([str(huddleFixtures[0]['huddleName']),
-                       huddleFixtures[0]['huddleTag'],
-                       huddleFixtures[0]['huddleLocation'],
-                       huddleFixtures[0]['huddleDateAndTime']])
-        huddlesTimestamp = datetime.utcfromtimestamp(
-            int(huddleFixtures[0]['huddleDateAndTime'][:-3]))
-        self.assertEqual(huddleFixtures[0]['huddleName'], huddles[0][0])
-        self.assertEqual(huddleFixtures[0]['huddleTag'], huddles[0][1])
-        self.assertEqual(huddleFixtures[0]['huddleLocation'], huddles[0][2])
-        self.assertEqual(str(huddlesTimestamp), huddles[0][3])
+        self.assertEqual([huddleFixtures[0]['huddleName']], huddles)
