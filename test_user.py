@@ -45,4 +45,6 @@ class HuddleTestCase(baseTest.GenericTestCase):
     def testGetUserInfo(self):
         userEmail = db_functions.addUser(userFixtures[0])
         userAvatar = db_functions.getUserInfo({'userEmail': userEmail, })
+        self.assertEqual(userFixtures[0]['userName'], userAvatar[0])
+        self.assertEqual(userFixtures[0]['userSkill'], userAvatar[1])
         self.assertEqual(userFixtures[0]['userAvatar'], userAvatar[2])
