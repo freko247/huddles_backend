@@ -8,7 +8,6 @@ class User(ndb.Model):
     userEmail = ndb.StringProperty(indexed=True, required=True)
     userPassword = ndb.StringProperty(indexed=True, required=True)
     userSkill = ndb.StringProperty(indexed=False, repeated=True)
-    userTag = ndb.StringProperty(indexed=False, repeated=True)
     userFriend = ndb.StringProperty(indexed=False, repeated=True)
     userAvatarKey = ndb.BlobKeyProperty(indexed=False)
 
@@ -24,7 +23,7 @@ class Huddle(ndb.Model):
     huddleLocation = ndb.GeoPtProperty(indexed=False, required=True)
     huddleAdmin = ndb.StringProperty(indexed=False, required=True)
     huddleName = ndb.StringProperty(indexed=True, required=True)
-    huddleTag = ndb.StringProperty(indexed=False, repeated=True)
+    huddleTag = ndb.StringProperty(indexed=True, repeated=True)
     huddleUser = ndb.StringProperty(indexed=False, repeated=True)
     huddleGeoDocId = ndb.StringProperty(indexed=True)
 
