@@ -37,7 +37,21 @@ class HuddleTestCase(baseTest.GenericTestCase):
         huddleUsers = db_functions.getHuddleUsers({'huddleName': huddleName})
         self.assertEqual(huddleFixtures[0]['huddleUser'], huddleUsers)
 
+    def testGetHuddlesInRangeAndTagged(self):
+        db_functions.createHuddle(huddleFixtures[0])
+        db_functions.createHuddle(huddleFixtures[1])
+        suggestions = db_functions.getSuggestedHuddles(settingsFixtures)
+        self.assertEqual([huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
+        self.assertEqual(0, suggestions[1])
+        self.assertEqual(1, suggestions[2])
+
     def testGetHuddlesInRange(self):
         db_functions.createHuddle(huddleFixtures[0])
-        huddles = db_functions.getSuggestedHuddles(settingsFixtures)
-        self.assertEqual([huddleFixtures[0]['huddleName']], huddles)
+        db_functions.createHuddle(huddleFixtures[1])
+        suggestions = db_functions.getSuggestedHuddles(
+            {'filterDistance': settingsFixtures['filterDistance'],
+             'userLocation': settingsFixtures['userLocation'],
+             })
+        self.assertEqual([huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
+        self.assertEqual(0, suggestions[1])
+        self.assertEqual(0, suggestions[2])

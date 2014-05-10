@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 import logging
+import json
 
 from google.appengine.ext import blobstore, ndb
 
@@ -147,13 +148,48 @@ def postChatMessage(messageData):
 
 def getSuggestedHuddles(settingsData):
     huddles = []
+    huddlesInRange = []
+    huddlesTagged = []
+    # Get all huddles within range
     if settingsData.get('userLocation') and settingsData.get('filterDistance'):
-        huddles = document_functions.getHuddlesInRange(settingsData)
-    else:
+        huddlesInRange = document_functions.getHuddlesInRange(settingsData)
+    # Get all huddles with matching tags
+    searchTags = None
+    if settingsData.get('searchTags') \
+       and not isinstance(settingsData.get('searchTags'), list):
+        searchTags = json.loads(settingsData.get('searchTags'))
+    elif settingsData.get('searchTags'):
+        searchTags = settingsData.get('searchTags')
+    if searchTags:
+        qr1 = models.Huddle.query(
+            models.Huddle.huddleTag.IN(searchTags))
+        for huddle in qr1:
+            huddlesTagged.append(huddle.huddleName)
+    # No filter applied
+    if not huddlesInRange and not huddlesTagged:
         qr1 = models.Huddle.query()
         for huddle in qr1:
             huddles.append(huddle.huddleName)
-    return huddles
+    huddlesInRangeCount = 0
+    huddlesTaggedCount = 0
+    # Merge search results
+    for results in [huddlesInRange, huddlesTagged]:
+        if results and not huddles:
+            huddles = results
+        elif results:
+            huddles = [huddle for huddle in results if huddle in huddles]
+    # Count hits outside filter range
+    huddlesInRangeCount = len([huddle for huddle in huddlesInRange
+                               if huddle not in huddles])
+    huddlesTaggedCount = len([huddle for huddle in huddlesTagged
+                              if huddle not in huddles])
+    # return value is: [huddles=[],
+    #                   "no. huddles in range, without tags",
+    #                   "huddles tagged, out of range"]
+    huddlesWithInfo = []
+    for huddle in huddles:
+        huddlesWithInfo.append(getHuddleInfo({'huddleName': huddle}))
+    return [huddlesWithInfo, huddlesInRangeCount, huddlesTaggedCount]
 
 
 def getHuddleInfo(huddleData):
