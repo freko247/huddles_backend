@@ -5,10 +5,6 @@ with open("res/avatar.png", "rb") as f:
     data = f.read()
     userAvatar = data.encode("base64")
 
-settingsFixtures = {'userLocation': ['55.7852', '12.5198'],
-                    'filterDistance': 100.,
-                    }
-
 userFixtures = [{'userEmail': 'user@mail.com',
                  'userName': 'John Doe',
                  'userPassword': 'password1',
@@ -35,6 +31,14 @@ huddleFixtures = [{'huddleDateAndTime': huddle_timestamp,
                    'huddleAdmin': userFixtures[0]['userEmail'],
                    'huddleName': 'Mobile Prototyping',
                    'huddleTag': ['DTU', '02728', 'Digital Media Engineering'],
+                   'huddleUser': [userFixtures[0]['userEmail'],
+                                  userFixtures[1]['userEmail']],
+                   },
+                  {'huddleDateAndTime': huddle_timestamp,
+                   'huddleLocation': ['56.785061', '11.519927'],
+                   'huddleAdmin': userFixtures[0]['userEmail'],
+                   'huddleName': 'Agile Digital Media Development',
+                   'huddleTag': ['DTU', '02725'],
                    'huddleUser': [userFixtures[0]['userEmail'],
                                   userFixtures[1]['userEmail']],
                    },
@@ -114,3 +118,8 @@ geoFixtures = [{'startLat':0.,
                  'distance': 1000.,
                  'dlat': 0.00899068,
                  'dlon': 0.00899068}]
+
+settingsFixtures = {'userLocation': ['55.7852', '12.5198'],
+                    'filterDistance': 100.,
+                    'searchTags': huddleFixtures[0]['huddleTag']
+                    }
