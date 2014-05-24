@@ -41,7 +41,8 @@ class HuddleTestCase(baseTest.GenericTestCase):
         db_functions.createHuddle(huddleFixtures[0])
         db_functions.createHuddle(huddleFixtures[1])
         suggestions = db_functions.getSuggestedHuddles(settingsFixtures)
-        self.assertEqual([huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
+        self.assertEqual(
+            [huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
         self.assertEqual(0, suggestions[1])
         self.assertEqual(1, suggestions[2])
 
@@ -52,6 +53,18 @@ class HuddleTestCase(baseTest.GenericTestCase):
             {'filterDistance': settingsFixtures['filterDistance'],
              'userLocation': settingsFixtures['userLocation'],
              })
-        self.assertEqual([huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
+        self.assertEqual(
+            [huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
+        self.assertEqual(0, suggestions[1])
+        self.assertEqual(0, suggestions[2])
+
+    def testGetNewHuddles(self):
+        db_functions.createHuddle(huddleFixtures[0])
+        db_functions.createHuddle(huddleFixtures[1])
+        suggestions = db_functions.getSuggestedHuddles(
+            {'huddleDate': settingsFixtures['huddleDate'],
+             })
+        self.assertEqual(
+            [huddleFixtures[0]['huddleName']], [suggestions[0][0][0]])
         self.assertEqual(0, suggestions[1])
         self.assertEqual(0, suggestions[2])

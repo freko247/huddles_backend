@@ -121,7 +121,7 @@ def createGroupAppointment(appointmentData):
                     'GroupAppointment',
                     appointmentData['appointmentName']
                     )
-        )
+    )
     appointment.populate(appointmentName=appointmentData['appointmentName'],
                          appointmentTime=appointmentData['appointmentTime'],
                          )
@@ -149,10 +149,31 @@ def postChatMessage(messageData):
 def getSuggestedHuddles(settingsData):
     huddles = []
     huddlesInRange = []
+    newHuddles = []
     huddlesTagged = []
+    listsToMerge = []
+    if not settingsData.get('filterDistance') and not \
+       settingsData.get('huddleDate') and not \
+       settingsData.get('searchTags'):
+        settingsData['filterDistance'] = '1000.'
+        settingsData['huddleDate'] = (datetime.datetime.now() /
+                                      -datetime.timedelta(days=14)).strftime(
+                                          '%Y-%m-%d')
+        # settingsData['searchTags'] =
     # Get all huddles within range
     if settingsData.get('userLocation') and settingsData.get('filterDistance'):
         huddlesInRange = document_functions.getHuddlesInRange(settingsData)
+        listsToMerge.append(huddlesInRange)
+    # Get all huddles newer than filter date
+    if settingsData.get('huddleDate'):
+        newDate = datetime.datetime.strptime(
+            settingsData.get('huddleDate'), '%Y-%m-%d')
+        logging.debug("Looking for Huddles newer than %s" % newDate)
+        qr1 = models.Huddle.query(models.Huddle.huddleDateAndTime >= newDate)
+        for huddle in qr1:
+            newHuddles.append(huddle.huddleName)
+        logging.debug("Found %s huddles" % len(newHuddles))
+        listsToMerge.append(newHuddles)
     # Get all huddles with matching tags
     searchTags = None
     if settingsData.get('searchTags') \
@@ -165,19 +186,17 @@ def getSuggestedHuddles(settingsData):
             models.Huddle.huddleTag.IN(searchTags))
         for huddle in qr1:
             huddlesTagged.append(huddle.huddleName)
-    # No filter applied
-    if not huddlesInRange and not huddlesTagged:
-        qr1 = models.Huddle.query()
-        for huddle in qr1:
-            huddles.append(huddle.huddleName)
-    huddlesInRangeCount = 0
-    huddlesTaggedCount = 0
+        listsToMerge.append(huddlesTagged)
     # Merge search results
-    for results in [huddlesInRange, huddlesTagged]:
-        if results and not huddles:
-            huddles = results
-        elif results:
-            huddles = [huddle for huddle in results if huddle in huddles]
+    # TODO: Shows matches for first criteria if no other are found, fix this!
+    results = []
+    if listsToMerge:
+        for huddleList in listsToMerge:
+            if not results:
+                results = set(huddleList)
+            else:
+                results = results & set(huddleList)
+    huddles = list(results)
     # Count hits outside filter range
     huddlesInRangeCount = len([huddle for huddle in huddlesInRange
                                if huddle not in huddles])

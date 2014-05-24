@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 
 with open("res/avatar.png", "rb") as f:
     data = f.read()
@@ -34,7 +34,7 @@ huddleFixtures = [{'huddleDateAndTime': huddle_timestamp,
                    'huddleUser': [userFixtures[0]['userEmail'],
                                   userFixtures[1]['userEmail']],
                    },
-                  {'huddleDateAndTime': huddle_timestamp,
+                  {'huddleDateAndTime': str(int(huddle_timestamp) - 172800000),
                    'huddleLocation': ['56.785061', '11.519927'],
                    'huddleAdmin': userFixtures[0]['userEmail'],
                    'huddleName': 'Agile Digital Media Development',
@@ -114,12 +114,15 @@ chatFixtures = [{'huddleName': huddleFixtures[0]['huddleName'],
                  'author': userFixtures[0]['userEmail'],
                  },
                 ]
-geoFixtures = [{'startLat':0.,
-                 'distance': 1000.,
-                 'dlat': 0.00899068,
-                 'dlon': 0.00899068}]
+geoFixtures = [{'startLat': 0.,
+                'distance': 1000.,
+                'dlat': 0.00899068,
+                'dlon': 0.00899068}]
 
+huddleDate = datetime.now() - timedelta(days=1)
+huddleDate = huddleDate.strftime('%Y-%m-%d')
 settingsFixtures = {'userLocation': ['55.7852', '12.5198'],
                     'filterDistance': 100.,
-                    'searchTags': huddleFixtures[0]['huddleTag']
+                    'searchTags': huddleFixtures[0]['huddleTag'],
+                    'huddleDate': huddleDate,
                     }
