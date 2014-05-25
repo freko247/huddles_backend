@@ -156,9 +156,7 @@ def getSuggestedHuddles(settingsData):
        settingsData.get('huddleDate') and not \
        settingsData.get('searchTags'):
         settingsData['filterDistance'] = '1000.'
-        settingsData['huddleDate'] = (datetime.datetime.now() /
-                                      -datetime.timedelta(days=14)).strftime(
-                                          '%Y-%m-%d')
+        settingsData['huddleDate'] = (datetime.datetime.now() - datetime.timedelta(days=14)).strftime('%Y-%m-%d')
         # settingsData['searchTags'] =
     # Get all huddles within range
     if settingsData.get('userLocation') and settingsData.get('filterDistance'):
