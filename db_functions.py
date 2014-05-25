@@ -155,6 +155,7 @@ def getSuggestedHuddles(settingsData):
     if not settingsData.get('filterDistance') and not \
        settingsData.get('huddleDate') and not \
        settingsData.get('searchTags'):
+        logging.debug('Applying search algorythm')
         settingsData['filterDistance'] = '1000.'
         settingsData['huddleDate'] = (datetime.datetime.now() - datetime.timedelta(days=14)).strftime('%Y-%m-%d')
         # settingsData['searchTags'] =
@@ -189,11 +190,9 @@ def getSuggestedHuddles(settingsData):
     # TODO: Shows matches for first criteria if no other are found, fix this!
     results = []
     if listsToMerge:
-        for huddleList in listsToMerge:
-            if not results:
-                results = set(huddleList)
-            else:
-                results = results & set(huddleList)
+        results = set(listsToMerge[0])
+        for huddleList in listsToMerge[1:]:
+            results = results & set(huddleList)
     huddles = list(results)
     # Count hits outside filter range
     huddlesInRangeCount = len([huddle for huddle in huddlesInRange
